@@ -27,6 +27,18 @@
 .App-link {
   color: #61dafb;
 }
+/* src/App.css */
+.shopping-notice {
+  display: none;
+}
+
+.shopping-notice.show {
+  display: block;
+}
+
+.shopping-filter .active {
+  font-weight: bold;
+}
 
 @keyframes App-logo-spin {
   from {

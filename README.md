@@ -1,70 +1,148 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Configuración y Ejecución del Proyecto To-Do List
 
-## Available Scripts
+Este archivo proporciona instrucciones para configurar y ejecutar tanto el backend como el frontend de la aplicación To-Do List.
+Requisitos Previos
 
-In the project directory, you can run:
+    .NET Core SDK (versión 6.0 o superior)
+    Node.js (versión 18.0 o superior)
+    MySQL o SQL Server para la base de datos
 
-### `npm start`
+Configuración del Backend (API en .NET Core)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    Clonar el Repositorio
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    bash
 
-### `npm test`
+git clone <URL_DEL_REPOSITORIO>
+cd <NOMBRE_DEL_DIRECTORIO_DEL_BACKEND>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Configurar la Cadena de Conexión
 
-### `npm run build`
+    Abre el archivo appsettings.json en el proyecto backend.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    Modifica la cadena de conexión en la sección ConnectionStrings para que apunte a tu base de datos MySQL o SQL Server.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    json
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    "ConnectionStrings": {
+      "DefaultConnection": "Server=<DIRECCIÓN_DEL_SERVIDOR>;Database=<NOMBRE_DE_LA_BASE_DE_DATOS>;User=<USUARIO>;Password=<CONTRASEÑA>;"
+    }
 
-### `npm run eject`
+Restaurar Paquetes y Ejecutar Migraciones
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    Restaura los paquetes NuGet:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    bash
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+dotnet restore
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Aplica las migraciones a la base de datos:
 
-## Learn More
+bash
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    dotnet ef database update
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Ejecutar el Backend
 
-### Code Splitting
+bash
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    dotnet run
 
-### Analyzing the Bundle Size
+    La API estará disponible en http://localhost:5000 por defecto.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Configuración del Frontend (ReactJS)
 
-### Making a Progressive Web App
+    Clonar el Repositorio
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    bash
 
-### Advanced Configuration
+git clone <URL_DEL_REPOSITORIO>
+cd <NOMBRE_DEL_DIRECTORIO_DEL_FRONTEND>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Instalar Dependencias
 
-### Deployment
+    Instala las dependencias de npm:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+    bash
 
-### `npm run build` fails to minify
+    npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Configurar la URL de la API
+
+    Abre el archivo src/api.js (o el archivo correspondiente donde se configuran las URL de la API).
+
+    Configura la URL base de la API para que apunte a tu instancia del backend.
+
+    javascript
+
+    const API_URL = 'http://localhost:5000/api';
+
+Ejecutar el Frontend
+
+bash
+
+    npm start
+
+    La aplicación frontend estará disponible en http://localhost:3000 por defecto.
+
+Ejemplos de Peticiones a la API
+Obtener Todas las Tareas
+
+    Método: GET
+
+    URL: http://localhost:5000/api/tasks
+
+    bash
+
+    curl -X GET http://localhost:5000/api/tasks
+
+Crear una Nueva Tarea
+
+    Método: POST
+
+    URL: http://localhost:5000/api/tasks
+
+    Body:
+
+    json
+
+{
+  "title": "Nueva tarea",
+  "description": "Descripción de la nueva tarea",
+  "isCompleted": false
+}
+
+bash
+
+    curl -X POST http://localhost:5000/api/tasks -H "Content-Type: application/json" -d '{"title": "Nueva tarea", "description": "Descripción de la nueva tarea", "isCompleted": false}'
+
+Actualizar una Tarea
+
+    Método: PUT
+
+    URL: http://localhost:5000/api/tasks/{id}
+
+    Body:
+
+    json
+
+{
+  "title": "Título actualizado",
+  "description": "Descripción actualizada",
+  "isCompleted": true
+}
+
+bash
+
+    curl -X PUT http://localhost:5000/api/tasks/{id} -H "Content-Type: application/json" -d '{"title": "Título actualizado", "description": "Descripción actualizada", "isCompleted": true}'
+
+Eliminar una Tarea
+
+    Método: DELETE
+
+    URL: http://localhost:5000/api/tasks/{id}
+
+    bash
+
+curl -X DELETE http://localhost:5000/api/tasks/{id}
